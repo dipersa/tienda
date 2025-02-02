@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+<div class="container mx-auto p-5">
+    <h2 class="text-3xl font-bold text-center mb-5">Productos</h2>
+
+    <div class="mb-4 text-right">
+        <a href="{% url 'agregar_producto' %}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Agregar Producto</a>
+    </div>
+
+    <ul class="bg-white shadow-md rounded-lg divide-y divide-gray-200">
+        {% for producto in productos %}
+        <li class="p-4 flex justify-between items-center">
+            <div class="text-gray-700">
+                <p class="font-bold">{{ producto.nombre }}</p>
+                <p>Precio: <span class="text-green-500 font-bold">${{ producto.precio }}</span></p>
+                <p>Stock: {{ producto.stock }}</p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div class="mt-6 text-center">
+        <a href="{% url 'dashboard' %}" class="text-blue-500 hover:underline">Volver al Dashboard</a>
+    </div>
+</div>
+</body>
+</html>

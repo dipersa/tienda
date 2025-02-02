@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Pedidos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-5 py-10">
+        <h2 class="text-3xl font-bold text-blue-500 text-center mb-6">Historial de Pedidos</h2>
+
+        <ul class="bg-white shadow-md rounded-lg divide-y divide-gray-200">
+            {% for pedido in pedidos %}
+            <li class="p-4 flex justify-between items-center">
+                <div>
+                    <p class="text-lg font-bold">Pedido #{{ pedido.id }}</p>
+                    <p class="text-gray-600">Total: ${{ pedido.total }}</p>
+                    <p class="text-gray-600">Estado: {{ pedido.estado }}</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div class="mt-6 text-center">
+            <a href="{% url 'dashboard' %}" class="text-blue-500 hover:underline">Volver al Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

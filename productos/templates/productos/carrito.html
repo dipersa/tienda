@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto py-10 px-5">
+        <h2 class="text-4xl font-bold text-center text-blue-500 mb-10">Carrito de Compras</h2>
+
+        <table class="w-full bg-white rounded shadow-lg">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="p-3 text-left">Producto</th>
+                    <th class="p-3 text-left">Cantidad</th>
+                    <th class="p-3 text-left">Subtotal</th>
+                    <th class="p-3 text-left">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, item in carrito.carrito.items %}
+                <tr class="border-t">
+                    <td class="p-3">{{ item.nombre }}</td>
+                    <td class="p-3">{{ item.cantidad }}</td>
+                    <td class="p-3 text-green-500 font-bold">${{ item.subtotal }}</td>
+                    <td class="p-3">
+                        <a href="{% url 'eliminar_del_carrito' key %}" class="text-red-500 hover:underline">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="mt-10 flex justify-between items-center">
+            <p class="text-xl font-bold">Total: <span class="text-green-500">${{ carrito.obtener_total }}</span></p>
+            <div class="flex space-x-4">
+                <a href="{% url 'dashboard' %}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">Volver al Dashboard</a>
+                <a href="{% url 'tienda' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Seguir Comprando</a>
+                <a href="{% url 'procesar_pago' %}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Pagar con Stripe</a>
+                <a href="{% url 'pago_zelle' %}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">Pagar con Zelle</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

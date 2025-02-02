@@ -1,0 +1,23 @@
+{% extends 'productos/base.html' %}
+
+{% block title %}
+    Agregar Contacto - Tienda Online
+{% endblock %}
+
+{% block content %}
+    <div class="flex justify-center items-center min-h-screen">
+        <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-md mx-4">
+            <h2 class="text-2xl font-bold text-center text-blue-500 mb-6">Agregar Contacto</h2>
+
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">Guardar</button>
+            </form>
+
+            <div class="mt-6 text-center">
+                <a href="{% url 'lista_contactos' %}" class="text-blue-500 hover:underline">Volver a la lista</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

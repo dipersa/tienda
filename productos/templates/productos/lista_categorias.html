@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorías</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+<div class="container mx-auto p-5">
+    <h2 class="text-3xl font-bold text-center mb-5">Categorías</h2>
+
+    <div class="mb-4 text-right">
+        <a href="{% url 'agregar_categoria' %}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Agregar Categoría</a>
+    </div>
+
+    <ul class="bg-white shadow-md rounded-lg divide-y divide-gray-200">
+        {% for categoria in categorias %}
+        <li class="p-4 text-gray-700">
+            {{ categoria.nombre }}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div class="mt-6 text-center">
+        <a href="{% url 'dashboard' %}" class="text-blue-500 hover:underline">Volver al Dashboard</a>
+    </div>
+</div>
+</body>
+</html>
