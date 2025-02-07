@@ -1,23 +1,45 @@
 {% extends 'productos/base.html' %}
+{% load form_filters %}
 
-{% block title %}
-    Agregar Contacto - Tienda Online
-{% endblock %}
+{% block title %}Agregar Contacto{% endblock %}
 
 {% block content %}
-    <div class="flex justify-center items-center min-h-screen">
-        <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-md mx-4">
-            <h2 class="text-2xl font-bold text-center text-blue-500 mb-6">Agregar Contacto</h2>
+<section class="container mx-auto px-5 py-10 flex justify-center items-center min-h-screen">
+    <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-8">
+        <h2 class="text-2xl font-bold text-center text-blue-500 mb-6">Agregar Contacto</h2>
 
-            <form method="post" class="space-y-4">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">Guardar</button>
-            </form>
+        <form method="post" class="space-y-5">
+            {% csrf_token %}
 
-            <div class="mt-6 text-center">
-                <a href="{% url 'lista_contactos' %}" class="text-blue-500 hover:underline">Volver a la lista</a>
+            <div>
+                <label for="id_nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                {{ form.nombre|add_class:"border rounded w-full p-3" }}
             </div>
+
+            <div>
+                <label for="id_apellidos" class="block text-sm font-medium text-gray-700 mb-1">Apellidos</label>
+                {{ form.apellidos|add_class:"border rounded w-full p-3" }}
+            </div>
+
+            <div>
+                <label for="id_celular" class="block text-sm font-medium text-gray-700 mb-1">Celular</label>
+                {{ form.celular|add_class:"border rounded w-full p-3" }}
+            </div>
+
+            <div>
+                <label for="id_direccion" class="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
+                {{ form.direccion|add_class:"border rounded w-full p-3" }}
+            </div>
+
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
+                Guardar Contacto
+            </button>
+        </form>
+
+        <div class="mt-6 text-center">
+            <a href="{% url 'lista_contactos' %}" class="text-blue-500 hover:underline">Volver a la Lista de Contactos</a>
         </div>
     </div>
+</section>
 {% endblock %}
+

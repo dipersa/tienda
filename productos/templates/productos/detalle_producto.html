@@ -1,30 +1,35 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ producto.nombre }}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 min-h-screen">
-<div class="container mx-auto p-5">
-    <div class="bg-white p-5 shadow rounded-lg">
-        {% if producto.imagen %}
-            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}"
-                 class="w-full h-64 object-cover rounded-md">
-        {% endif %}
-        <h2 class="text-3xl font-bold mt-3">{{ producto.nombre }}</h2>
-        <p class="text-gray-500 mt-2">{{ producto.descripcion }}</p>
-        <p class="text-green-500 font-bold text-2xl mt-3">${{ producto.precio }}</p>
-        <p class="text-gray-700 mt-1">Stock disponible: {{ producto.stock }}</p>
+{% extends 'productos/base.html' %}
 
-        <!-- Botones -->
-        <a href="{% url 'agregar_al_carrito' producto.id %}"
-           class="mt-5 inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Agregar al Carrito</a>
-        <a href="{% url 'tienda' %}"
-           class="mt-5 inline-block bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Volver</a>
+{% block title %}{{ producto.nombre }}{% endblock %}
+
+{% block content %}
+<section class="container mx-auto px-5 py-10">
+    <div class="flex flex-col md:flex-row items-start bg-white shadow-lg rounded-lg overflow-hidden">
+        <!-- Imagen del Producto -->
+        <div class="w-full md:w-1/2">
+            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="w-full h-full object-contain bg-gray-100 p-5">
+        </div>
+        <!-- Detalles del Producto -->
+        <div class="w-full md:w-1/2 p-5">
+            <h1 class="text-3xl font-bold text-gray-800">{{ producto.nombre }}</h1>
+            <p class="text-gray-600 mt-3">{{ producto.descripcion }}</p>
+            <p class="text-green-500 text-2xl font-bold mt-3">${{ producto.precio }}</p>
+            <p class="text-gray-700 mt-1">Stock disponible: {{ producto.stock }}</p>
+
+            <!-- Agregar al Carrito -->
+            <form action="{% url 'agregar_al_carrito' producto.id %}" method="post" class="mt-5">
+                {% csrf_token %}
+                <label for="cantidad" class="block text-gray-600 mb-2">Cantidad:</label>
+                <input type="number" name="cantidad" value="1" min="1" id="cantidad" class="border rounded w-16 p-2 text-center">
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition mt-3">Agregar al Carrito</button>
+            </form>
+
+            <!-- Botón de Regresar -->
+            <a href="{% url 'tienda' %}" class="block mt-5 text-blue-500 hover:underline">← Volver a la Tienda</a>
+        </div>
     </div>
-</div>
-</body>
-</html>
+</section>
+{% endblock %}
+
+
 

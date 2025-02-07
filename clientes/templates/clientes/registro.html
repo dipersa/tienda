@@ -1,21 +1,56 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 h-screen flex items-center justify-center">
-    <!-- Contenedor Principal -->
-    <div class="bg-white shadow-md rounded-lg p-8 w-96">
-        <h2 class="text-2xl font-bold text-center text-blue-500 mb-6">Registro de Usuario</h2>
+{% extends 'productos/base.html' %}
+{% load form_filters %}
 
-        <form method="post" class="space-y-4">
+{% block title %}Registro{% endblock %}
+
+{% block content %}
+<section class="container mx-auto px-5 py-10 flex justify-center items-center min-h-screen">
+    <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-8">
+        <h2 class="text-2xl font-bold text-center text-blue-500 mb-6">Crear Cuenta</h2>
+
+        <form method="post" class="space-y-5">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">Registrarse</button>
+
+            <div>
+                <label for="id_nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                {{ form.nombre|add_class:"border rounded w-full p-3" }}
+            </div>
+
+            <div>
+                <label for="id_apellidos" class="block text-sm font-medium text-gray-700 mb-1">Apellidos</label>
+                {{ form.apellidos|add_class:"border rounded w-full p-3" }}
+            </div>
+
+            <div>
+                <label for="id_email" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                {{ form.email|add_class:"border rounded w-full p-3" }}
+            </div>
+
+            <div>
+                <label for="id_celular" class="block text-sm font-medium text-gray-700 mb-1">Celular</label>
+                {{ form.celular|add_class:"border rounded w-full p-3" }}
+            </div>
+
+            <div>
+                <label for="id_password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                {{ form.password }}
+            </div>
+
+            <div>
+                <label for="id_confirmar_password" class="block text-sm font-medium text-gray-700 mb-1">Confirmar Contraseña</label>
+                {{ form.confirmar_password }}
+            </div>
+
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
+                Registrarse
+            </button>
         </form>
+
+        <div class="mt-6 text-center">
+            <p class="text-sm text-gray-600">¿Ya tienes una cuenta?
+                <a href="{% url 'login' %}" class="text-blue-500 hover:underline">Inicia Sesión</a>.
+            </p>
+        </div>
     </div>
-</body>
-</html>
+</section>
+{% endblock %}

@@ -8,10 +8,15 @@ from django.contrib.auth.forms import AuthenticationForm
 from django import forms
 from .models import CustomUser, Contacto
 
+from django import forms
+from .models import CustomUser
+
 
 class RegistroUsuarioForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
-    confirmar_password = forms.CharField(widget=forms.PasswordInput, label="Confirmar Contraseña")
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'border rounded w-full p-3'}),
+                               label="Contraseña")
+    confirmar_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'border rounded w-full p-3'}),
+                                         label="Confirmar Contraseña")
 
     class Meta:
         model = CustomUser
@@ -22,10 +27,8 @@ class RegistroUsuarioForm(forms.ModelForm):
         password = cleaned_data.get("password")
         confirmar_password = cleaned_data.get("confirmar_password")
 
-        if password and confirmar_password and password != confirmar_password:
-            self.add_error('confirmar_password', "Las contraseñas no coinciden.")
-
-        return cleaned_data
+        if password != confirmar_password:
+            self.add_error("confirmar_password", "Las contraseñas no coinciden.")
 
 
 class EditarPerfilForm(forms.ModelForm):

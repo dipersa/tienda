@@ -10,13 +10,21 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Contacto
 from .forms import ContactoForm
+from django.shortcuts import render, redirect
+from django.views import View
 
 
-class RegistroUsuarioView(CreateView):
-    model = CustomUser
-    form_class = RegistroUsuarioForm
-    template_name = 'clientes/registro.html'
-    success_url = reverse_lazy('login')
+class RegistroUsuarioView(View):
+    def get(self, request):
+        form = RegistroUsuarioForm()
+        return render(request, 'clientes/registro.html', {'form': form})
+
+    def post(self, request):
+        form = RegistroUsuarioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+        return render(request, 'clientes/registro.html', {'form': form})
 
 
 class CustomLoginView(LoginView):
