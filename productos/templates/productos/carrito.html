@@ -1,22 +1,19 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito de Compras</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 min-h-screen">
-    <div class="container mx-auto py-10 px-5">
-        <h2 class="text-4xl font-bold text-center text-blue-500 mb-10">Carrito de Compras</h2>
+{% extends 'productos/base.html' %}
+{% block title %}Carrito de Compras{% endblock %}
 
-        <table class="w-full bg-white rounded shadow-lg">
+{% block content %}
+<section class="container mx-auto px-5 py-10 min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-8">
+        <h2 class="text-2xl font-bold text-center text-blue-500 mb-6">Carrito de Compras</h2>
+
+        {% if carrito.carrito %}
+        <table class="w-full bg-white border rounded shadow-md">
             <thead class="bg-gray-200">
                 <tr>
-                    <th class="p-3 text-left">Producto</th>
-                    <th class="p-3 text-left">Cantidad</th>
-                    <th class="p-3 text-left">Subtotal</th>
-                    <th class="p-3 text-left">Acciones</th>
+                    <th class="text-left p-3 font-medium">Producto</th>
+                    <th class="text-left p-3 font-medium">Cantidad</th>
+                    <th class="text-left p-3 font-medium">Subtotal</th>
+                    <th class="text-left p-3 font-medium">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,15 +30,30 @@
             </tbody>
         </table>
 
-        <div class="mt-10 flex justify-between items-center">
-            <p class="text-xl font-bold">Total: <span class="text-green-500">${{ carrito.obtener_total }}</span></p>
-            <div class="flex space-x-4">
-                <a href="{% url 'dashboard' %}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">Volver a la Tienda</a>
-                <a href="{% url 'tienda' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Seguir Comprando</a>
-                <a href="{% url 'procesar_pago' %}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Pagar con Stripe</a>
-                <a href="{% url 'pago_zelle' %}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">Pagar con Zelle</a>
+        <div class="mt-6">
+            <p class="text-lg font-bold">Total: <span class="text-green-500">${{ carrito.obtener_total }}</span></p>
+            <div class="mt-4 flex justify-between">
+                <a href="{% url 'tienda' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+                    Seguir Comprando
+                </a>
+                <div class="space-x-4">
+                    <a href="{% url 'procesar_pago' %}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+                        Pagar con Stripe
+                    </a>
+                    <a href="{% url 'pago_zelle' %}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
+                        Pagar con Zelle
+                    </a>
+                </div>
             </div>
         </div>
+        {% else %}
+        <p class="text-center text-gray-500 mt-10">Tu carrito está vacío. ¡Agrega productos para comenzar a comprar!</p>
+        <div class="mt-6 text-center">
+            <a href="{% url 'tienda' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+                Volver a la Tienda
+            </a>
+        </div>
+        {% endif %}
     </div>
-</body>
-</html>
+</section>
+{% endblock %}

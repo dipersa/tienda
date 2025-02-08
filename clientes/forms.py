@@ -10,13 +10,17 @@ from .models import CustomUser, Contacto
 
 from django import forms
 from .models import CustomUser
+from django.contrib import messages
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views.generic.edit import FormView
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User  # Asegúrate de importar User si estás usando el modelo predeterminado
 
 
 class RegistroUsuarioForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'border rounded w-full p-3'}),
-                               label="Contraseña")
-    confirmar_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'border rounded w-full p-3'}),
-                                         label="Confirmar Contraseña")
+    password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
+    confirmar_password = forms.CharField(widget=forms.PasswordInput, label="Confirmar Contraseña")
 
     class Meta:
         model = CustomUser
@@ -28,7 +32,8 @@ class RegistroUsuarioForm(forms.ModelForm):
         confirmar_password = cleaned_data.get("confirmar_password")
 
         if password != confirmar_password:
-            self.add_error("confirmar_password", "Las contraseñas no coinciden.")
+            raise forms.ValidationError("Las contraseñas no coinciden.")
+        return cleaned_data
 
 
 class EditarPerfilForm(forms.ModelForm):

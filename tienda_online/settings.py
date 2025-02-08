@@ -20,12 +20,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1t9v-+5)5mu@d#a#9!_g#-_xwkksem@i4ox9fcfr%d@-^o_q-l'
+# SECRET_KEY = 'django-insecure-1t9v-+5)5mu@d#a#9!_g#-_xwkksem@i4ox9fcfr%d@-^o_q-l'
+
+
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-1t9v-+5)5mu@d#a#9!_g#-_xwkksem@i4ox9fcfr%d@-^o_q-l')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost').split(',')
+CSRF_TRUSTED_ORIGINS = ['https://dtodo.versavila.com']
 
 # Application definition
 
@@ -56,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',  # <-- Agrega esta línea
+    'django.contrib.messages.middleware.MessageMiddleware',
 ]
 
 ROOT_URLCONF = 'tienda_online.urls'
@@ -71,6 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
             ],
         },
     },
@@ -139,7 +145,6 @@ LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/tienda/'
 LOGIN_URL = '/login/'  # O la URL personalizada de tu login
 
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -153,6 +158,7 @@ STRIPE_SECRET_KEY = 'tu_secret_key_de_stripe'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
+
 ]
 
 # Configuración de Django Allauth

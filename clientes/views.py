@@ -12,19 +12,27 @@ from .models import Contacto
 from .forms import ContactoForm
 from django.shortcuts import render, redirect
 from django.views import View
+from django.contrib.auth import login
+from django.contrib import messages
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views.generic.edit import FormView
+from clientes.forms import RegistroUsuarioForm
+from django.contrib.auth.models import User
 
 
-class RegistroUsuarioView(View):
-    def get(self, request):
-        form = RegistroUsuarioForm()
-        return render(request, 'clientes/registro.html', {'form': form})
+class RegistroUsuarioView(FormView):
+    template_name = 'clientes/registro.html'
+    form_class = RegistroUsuarioForm
+    success_url = reverse_lazy('login')
 
-    def post(self, request):
-        form = RegistroUsuarioForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')
-        return render(request, 'clientes/registro.html', {'form': form})
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.set_password(form.cleaned_data['password'])
+        user.save()
+
+        messages.success(self.request, 'Te has registrado con éxito. Ahora puedes iniciar sesión.')
+        return redirect(self.success_url)
 
 
 class CustomLoginView(LoginView):

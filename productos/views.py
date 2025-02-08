@@ -17,6 +17,13 @@ from django.shortcuts import render, redirect
 from .cart import Carrito
 from django.contrib.auth.views import LogoutView
 
+from django.contrib.auth import login
+from django.contrib import messages
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views.generic.edit import FormView
+from clientes.forms import RegistroUsuarioForm
+
 
 @login_required
 def lista_categorias(request):
@@ -151,3 +158,5 @@ def confirmar_pago(request):
 def historial_pedidos(request):
     pedidos = Pedido.objects.filter(usuario=request.user).order_by('-fecha')
     return render(request, 'clientes/historial_pedidos.html', {'pedidos': pedidos})
+
+
