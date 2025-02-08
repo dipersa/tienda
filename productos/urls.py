@@ -1,15 +1,19 @@
 from django.urls import path
 from .views import lista_categorias, agregar_categoria, lista_productos, agregar_producto, tienda, detalle_producto, \
-    agregar_al_carrito, eliminar_del_carrito, ver_carrito, limpiar_carrito, historial_pedidos
+    agregar_al_carrito, eliminar_del_carrito, ver_carrito, limpiar_carrito, historial_pedidos, editar_categoria, \
+    eliminar_categoria
 from .views import procesar_pago, pago_zelle
 from django.contrib.auth.views import LogoutView
-
+from clientes.views import admin_dashboard
 
 urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     # Categorías
     path('categorias/', lista_categorias, name='lista_categorias'),
     path('categorias/agregar/', agregar_categoria, name='agregar_categoria'),
+    path('categorias/editar/<int:categoria_id>/', editar_categoria, name='editar_categoria'),
+    path('categorias/eliminar/<int:categoria_id>/', eliminar_categoria, name='eliminar_categoria'),
+    # Agregar esta línea
 
     # Productos
     path('productos/', lista_productos, name='lista_productos'),
@@ -26,6 +30,7 @@ urlpatterns = [
     path('pago/procesar/', procesar_pago, name='procesar_pago'),
     path('pago/zelle/', pago_zelle, name='pago_zelle'),
     path('pedidos/', historial_pedidos, name='historial_pedidos'),
+
 
 
 ]

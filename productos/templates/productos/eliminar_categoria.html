@@ -1,0 +1,19 @@
+{% extends 'productos/base.html' %}
+
+{% block title %}Eliminar Categoría{% endblock %}
+
+{% block content %}
+<section class="container mx-auto px-5 py-10">
+    <h2 class="text-3xl font-bold text-center text-red-500 mb-6">Eliminar Categoría</h2>
+    <p class="text-center mb-4">¿Estás seguro de que deseas eliminar la categoría <strong>{{ categoria.nombre }}</strong>?</p>
+    <form method="post" class="text-center">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">
+            Sí, Eliminar
+        </button>
+        <a href="{% url 'lista_categorias' %}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">
+            Cancelar
+        </a>
+    </form>
+</section>
+{% endblock %}

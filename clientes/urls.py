@@ -1,8 +1,11 @@
 from django.urls import path
-from .views import RegistroUsuarioView, lista_contactos, editar_contacto, eliminar_contacto, agregar_contacto
+from .views import RegistroUsuarioView, lista_contactos, editar_contacto, eliminar_contacto, agregar_contacto, \
+    admin_dashboard
 from .views import CustomLoginView
 from django.contrib.auth import views as auth_views
 from .views import dashboard, editar_perfil
+from django.contrib.admin.views.decorators import staff_member_required
+
 
 urlpatterns = [
     path('registro/', RegistroUsuarioView.as_view(), name='registro'),
@@ -28,5 +31,6 @@ urlpatterns = [
     path('contactos/agregar/', agregar_contacto, name='agregar_contacto'),
     path('contactos/editar/<int:contacto_id>/', editar_contacto, name='editar_contacto'),
     path('contactos/eliminar/<int:contacto_id>/', eliminar_contacto, name='eliminar_contacto'),
+    path('dashboard/admin/', admin_dashboard, name='admin_dashboard'),
 
 ]

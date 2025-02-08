@@ -44,6 +44,28 @@ def agregar_categoria(request):
 
 
 @login_required
+def editar_categoria(request, categoria_id):
+    categoria = get_object_or_404(Categoria, id=categoria_id)
+    if request.method == 'POST':
+        form = CategoriaForm(request.POST, instance=categoria)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_categorias')
+    else:
+        form = CategoriaForm(instance=categoria)
+    return render(request, 'productos/editar_categoria.html', {'form': form})
+
+
+@login_required
+def eliminar_categoria(request, categoria_id):
+    categoria = get_object_or_404(Categoria, id=categoria_id)
+    if request.method == 'POST':
+        categoria.delete()
+        return redirect('lista_categorias')
+    return render(request, 'productos/eliminar_categoria.html', {'categoria': categoria})
+
+
+@login_required
 def lista_productos(request):
     productos = Producto.objects.all()
     return render(request, 'productos/lista_productos.html', {'productos': productos})
@@ -158,5 +180,3 @@ def confirmar_pago(request):
 def historial_pedidos(request):
     pedidos = Pedido.objects.filter(usuario=request.user).order_by('-fecha')
     return render(request, 'clientes/historial_pedidos.html', {'pedidos': pedidos})
-
-

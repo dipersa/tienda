@@ -1,0 +1,17 @@
+{% extends 'productos/base.html' %}
+
+{% block title %}Editar Categoría{% endblock %}
+
+{% block content %}
+<section class="container mx-auto px-5 py-10">
+    <h2 class="text-3xl font-bold text-center text-blue-500 mb-6">Editar Categoría</h2>
+
+    <form method="post" class="bg-white shadow-md rounded-lg p-8 max-w-md mx-auto">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
+            Guardar Cambios
+        </button>
+    </form>
+</section>
+{% endblock %}

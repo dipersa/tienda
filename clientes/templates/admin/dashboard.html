@@ -1,0 +1,35 @@
+{% extends 'productos/base.html' %}
+
+{% block title %}Dashboard Administrador{% endblock %}
+
+{% block content %}
+<section class="container mx-auto px-5 py-10">
+    <h1 class="text-3xl font-bold text-center mb-10">Dashboard del Administrador</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-blue-500 text-white p-6 rounded shadow">
+            <h2 class="text-lg font-bold">Total Ventas</h2>
+            <p class="text-2xl font-semibold">${{ total_ventas }}</p>
+        </div>
+        <div class="bg-green-500 text-white p-6 rounded shadow">
+            <h2 class="text-lg font-bold">Productos</h2>
+            <p class="text-2xl font-semibold">{{ total_productos }}</p>
+        </div>
+        <div class="bg-yellow-500 text-white p-6 rounded shadow">
+            <h2 class="text-lg font-bold">Categorías</h2>
+            <p class="text-2xl font-semibold">{{ total_categorias }}</p>
+        </div>
+        <div class="bg-red-500 text-white p-6 rounded shadow">
+            <h2 class="text-lg font-bold">Pedidos</h2>
+            <p class="text-2xl font-semibold">{{ total_pedidos }}</p>
+        </div>
+    </div>
+
+    <div class="mt-10">
+        <h2 class="text-xl font-bold mb-4">Gestión</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="{% url 'lista_productos' %}" class="bg-blue-500 text-white py-2 px-4 rounded shadow hover:bg-blue-600">Gestionar Productos</a>
+            <a href="{% url 'lista_categorias' %}" class="bg-green-500 text-white py-2 px-4 rounded shadow hover:bg-green-600">Gestionar Categorías</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

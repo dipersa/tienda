@@ -1,6 +1,9 @@
 from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
+
+from pedidos.models import Pedido
+from productos.models import Producto, Categoria
 from .models import CustomUser
 from .forms import RegistroUsuarioForm
 from django.contrib.auth.decorators import login_required
@@ -19,6 +22,30 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 from clientes.forms import RegistroUsuarioForm
 from django.contrib.auth.models import User
+from django.contrib.admin.views.decorators import staff_member_required
+
+
+@staff_member_required
+def admin_dashboard(request):
+    productos = Producto.objects.all()
+    categorias = Categoria.objects.all()
+    pedidos = Pedido.objects.all()
+
+    # Métricas clave
+    total_ventas = sum(p.total for p in pedidos)
+    total_productos = productos.count()
+    total_categorias = categorias.count()
+    total_pedidos = pedidos.count()
+
+    context = {
+        'productos': productos,
+        'categorias': categorias,
+        'total_ventas': total_ventas,
+        'total_productos': total_productos,
+        'total_categorias': total_categorias,
+        'total_pedidos': total_pedidos,
+    }
+    return render(request, 'admin/dashboard.html', context)
 
 
 class RegistroUsuarioView(FormView):

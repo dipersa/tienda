@@ -25,6 +25,9 @@
             {% else %}
                 <a href="{% url 'login' %}" class="text-gray-600 hover:text-blue-500">Login</a>
             {% endif %}
+            {% if user.is_staff %}
+                <a href="{% url 'admin_dashboard' %}" class="text-gray-600 hover:text-blue-500">Dashboard</a>
+            {% endif %}
         </div>
     </div>
 </nav>
@@ -40,11 +43,6 @@
     <div class="container mx-auto text-center md:flex justify-between items-center">
         <p>&copy; 2025 Tienda Online. Todos los derechos reservados.</p>
         <p>Contacto: <a href="mailto:soporte@tiendaonline.com" class="text-blue-500">soporte@tiendaonline.com</a></p>
-        <div class="mt-4 md:mt-0">
-            <a href="{% url 'tienda' %}" class="text-gray-400 hover:text-white mx-2">Tienda</a>
-            <a href="{% url 'ver_carrito' %}" class="text-gray-400 hover:text-white mx-2">Carrito</a>
-            <a href="{% url 'login' %}" class="text-gray-400 hover:text-white mx-2">Login</a>
-        </div>
     </div>
 </footer>
 
@@ -57,6 +55,8 @@
         {% endfor %}
     </div>
 {% endif %}
+
+
 
 
 <script>
