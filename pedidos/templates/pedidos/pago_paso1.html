@@ -1,0 +1,41 @@
+{% extends "productos/base.html" %}
+
+{% block title %}Resumen del Carrito{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center text-primary mb-4">Resumen del Carrito</h2>
+        <div class="card shadow-lg p-4">
+            <table class="table table-hover table-bordered">
+                <thead class="bg-primary text-white">
+                <tr>
+                    <th class="fw-bold">Producto</th>
+                    <th class="fw-bold">Cantidad</th>
+                    <th class="fw-bold">Precio</th>
+                    <th class="fw-bold">Subtotal</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in carrito %}
+                    <tr class="bg-white">
+                        <td>{{ item.producto.nombre }}</td>
+                        <td>{{ item.cantidad }}</td>
+                        <td class="text-success fw-bold">${{ item.precio }}</td>
+                        <td class="text-success fw-bold">${{ item.subtotal }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="text-end mt-4">
+                <h4 class="fw-bold">Total: <span class="text-primary">${{ total }}</span></h4>
+            </div>
+            <div class="text-center mt-4">
+                <a href="{% url 'pago_paso2' %}" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i> Continuar
+                </a>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

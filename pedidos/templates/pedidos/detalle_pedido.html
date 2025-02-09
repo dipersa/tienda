@@ -1,0 +1,47 @@
+{% extends "productos/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h3>Detalles del Pedido</h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>ID del Pedido:</strong> {{ pedido.id }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Fecha:</strong> {{ pedido.fecha_creacion|date:"d/m/Y H:i" }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Total:</strong> ${{ pedido.total }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Estado:</strong>
+                    {% if pedido.estado == "pendiente" %}
+                        <span class="badge bg-warning text-dark">Pendiente</span>
+                    {% elif pedido.estado == "aprobado" %}
+                        <span class="badge bg-success">Aprobado</span>
+                    {% else %}
+                        <span class="badge bg-danger">Cancelado</span>
+                    {% endif %}
+                </li>
+                {% if pedido.comprobante_pago %}
+                <li class="list-group-item">
+                    <strong>Comprobante:</strong>
+                    <a href="{{ pedido.comprobante_pago.url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                        Ver Comprobante
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="card-footer text-center">
+            <a href="{% url 'historial_pedidos' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Volver al Historial de Pedidos
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

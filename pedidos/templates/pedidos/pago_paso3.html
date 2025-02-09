@@ -1,0 +1,17 @@
+{% extends "productos/base.html" %}
+
+{% block title %}Información de Pago{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center text-primary mb-4">Información de Pago por Zelle</h2>
+    <div class="card p-4 shadow-lg">
+        <p><strong>Nombre:</strong> {{ informacion_pago.nombre }}</p>
+        <p><strong>Correo:</strong> {{ informacion_pago.correo }}</p>
+        <p><strong>Banco:</strong> {{ informacion_pago.banco }}</p>
+        <div class="text-center mt-4">
+            <a href="{% url 'pago_paso4' %}" class="btn btn-primary">Continuar</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -24,6 +24,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),  # URLs de Django-Allauth
     path('', include('clientes.urls')),  # Incluye las rutas de la app clientes
     path('', include('productos.urls')),  # Incluye las rutas de la app productos
+    path('', include('pedidos.urls')),
 
 ]
 

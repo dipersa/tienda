@@ -1,0 +1,24 @@
+{% extends "productos/base.html" %}
+
+{% block title %}Subir Comprobante{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center text-primary mb-4">Sube tu Comprobante de Pago</h2>
+        <div class="card p-4 shadow-lg">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success">Subir Comprobante</button>
+                </div>
+            </form>
+        </div>
+        <div class="mt-4 text-center">
+            <a href="{% url 'resumen_carrito' %}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Volver al Paso 1
+            </a>
+        </div>
+    </div>
+{% endblock %}
+

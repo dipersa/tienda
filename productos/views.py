@@ -96,6 +96,7 @@ def editar_producto(request, producto_id):
         form = ProductoForm(instance=producto)
     return render(request, 'productos/editar_producto.html', {'form': form, 'producto': producto})
 
+
 @login_required
 def eliminar_producto(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)

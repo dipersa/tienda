@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+
+from clientes.models import Contacto
 from productos.models import Producto
 
 User = get_user_model()
@@ -11,6 +13,8 @@ class Pedido(models.Model):
     total = models.DecimalField(max_digits=10, decimal_places=2)
     estado = models.CharField(max_length=20, choices=[('pendiente', 'Pendiente'), ('completado', 'Completado')],
                               default='pendiente')
+    comprobante_pago = models.ImageField(upload_to='comprobantes/', blank=True, null=True)
+    contacto = models.ForeignKey(Contacto, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f"Pedido {self.id} - {self.usuario.email} - {self.estado}"
