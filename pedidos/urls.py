@@ -10,4 +10,8 @@ urlpatterns = [
     path('pago/paso4/', views.subir_comprobante_pago, name='pago_paso4'),
     path('pago/paso5/', views.confirmacion_pago, name='pago_paso5'),
     path('detalle/<int:pedido_id>/', views.detalle_pedido, name='detalle_pedido'),
+
+    path('detalle/<int:pedido_id>/', views.detalle_pedido, name='detalle_pedido'),
+    path('aprobar/<int:pedido_id>/', views.aprobar_pedido, name='aprobar_pedido'),
+    path('cancelar/<int:pedido_id>/', views.cancelar_pedido, name='cancelar_pedido'),
 ]

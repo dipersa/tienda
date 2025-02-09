@@ -8,7 +8,8 @@ from django.contrib import messages
 import logging
 from django.shortcuts import render, get_object_or_404
 from .models import Pedido
-
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
 
 # Crear el logger
 logger = logging.getLogger(__name__)
@@ -98,3 +99,21 @@ def confirmacion_pago(request):
 def detalle_pedido(request, pedido_id):
     pedido = get_object_or_404(Pedido, id=pedido_id)
     return render(request, 'pedidos/detalle_pedido.html', {'pedido': pedido})
+
+
+def aprobar_pedido(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+    if pedido.estado == "en revisión":
+        pedido.estado = "aprobado"
+        pedido.save()
+        messages.success(request, f"El pedido {pedido.id} ha sido aprobado.")
+    return redirect('gestionar_pedidos')
+
+
+def cancelar_pedido(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+    if pedido.estado == "en revisión":
+        pedido.estado = "cancelado"
+        pedido.save()
+        messages.success(request, f"El pedido {pedido.id} ha sido cancelado.")
+    return redirect('gestionar_pedidos')

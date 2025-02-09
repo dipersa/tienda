@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import RegistroUsuarioView, lista_contactos, editar_contacto, eliminar_contacto, agregar_contacto, \
-    admin_dashboard
+    admin_dashboard, gestionar_pedidos
 from .views import CustomLoginView
 from django.contrib.auth import views as auth_views
 from .views import dashboard, editar_perfil
@@ -32,5 +32,8 @@ urlpatterns = [
     path('contactos/editar/<int:contacto_id>/', editar_contacto, name='editar_contacto'),
     path('contactos/eliminar/<int:contacto_id>/', eliminar_contacto, name='eliminar_contacto'),
     path('dashboard/admin/', admin_dashboard, name='admin_dashboard'),
+
+    path('pedidos/gestionar/', gestionar_pedidos, name='gestionar_pedidos')
+
 
 ]

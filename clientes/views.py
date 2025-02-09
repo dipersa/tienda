@@ -23,6 +23,8 @@ from django.views.generic.edit import FormView
 from clientes.forms import RegistroUsuarioForm
 from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import render
+from pedidos.models import Pedido
 
 
 @staff_member_required
@@ -46,6 +48,11 @@ def admin_dashboard(request):
         'total_pedidos': total_pedidos,
     }
     return render(request, 'admin/dashboard.html', context)
+
+
+def gestionar_pedidos(request):
+    pedidos = Pedido.objects.filter(estado='en revisión')  # Mostrar solo pedidos en revisión
+    return render(request, 'admin/gestionar_pedidos.html', {'pedidos': pedidos})
 
 
 class RegistroUsuarioView(FormView):

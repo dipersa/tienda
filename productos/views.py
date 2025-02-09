@@ -204,3 +204,5 @@ def confirmar_pago(request):
 def historial_pedidos(request):
     pedidos = Pedido.objects.filter(usuario=request.user).order_by('-fecha')
     return render(request, 'clientes/historial_pedidos.html', {'pedidos': pedidos})
+
+
