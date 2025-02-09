@@ -1,59 +1,58 @@
 {% extends 'productos/base.html' %}
-{% load form_filters %}
+{% load products_form_filters %}
 
 {% block title %}Registro{% endblock %}
 
 {% block content %}
-    <section class="container mx-auto px-5 py-10 flex justify-center items-center min-h-screen">
-        <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-8">
-            <h2 class="text-2xl font-bold text-center text-blue-500 mb-6">Crear Cuenta</h2>
-
-            <form method="post" class="space-y-5">
+<section class="container mt-5 d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg p-4" style="max-width: 500px; width: 100%;">
+        <div class="card-header bg-primary text-white text-center">
+            <h5 class="mb-0">Crear Cuenta</h5>
+        </div>
+        <div class="card-body">
+            <form method="post">
                 {% csrf_token %}
 
-                <div>
-                    <label for="id_nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-                    {{ form.nombre|add_class:"border rounded w-full p-3" }}
+                <div class="mb-3">
+                    <label for="id_nombre" class="form-label">Nombre</label>
+                    {{ form.nombre|add_class:"form-control" }}
                 </div>
 
-                <div>
-                    <label for="id_apellidos" class="block text-sm font-medium text-gray-700 mb-1">Apellidos</label>
-                    {{ form.apellidos|add_class:"border rounded w-full p-3" }}
+                <div class="mb-3">
+                    <label for="id_apellidos" class="form-label">Apellidos</label>
+                    {{ form.apellidos|add_class:"form-control" }}
                 </div>
 
-                <div>
-                    <label for="id_email" class="block text-sm font-medium text-gray-700 mb-1">Correo
-                        Electrónico</label>
-                    {{ form.email|add_class:"border rounded w-full p-3" }}
+                <div class="mb-3">
+                    <label for="id_email" class="form-label">Correo Electrónico</label>
+                    {{ form.email|add_class:"form-control" }}
                 </div>
 
-                <div>
-                    <label for="id_celular" class="block text-sm font-medium text-gray-700 mb-1">Celular</label>
-                    {{ form.celular|add_class:"border rounded w-full p-3" }}
+                <div class="mb-3">
+                    <label for="id_celular" class="form-label">Celular</label>
+                    {{ form.celular|add_class:"form-control" }}
                 </div>
 
-                <div>
-                    <label for="id_password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
-                    {{ form.password|add_class:"border rounded w-full p-3" }}
+                <div class="mb-3">
+                    <label for="id_password" class="form-label">Contraseña</label>
+                    {{ form.password|add_class:"form-control" }}
                 </div>
 
-                <div>
-                    <label for="id_confirmar_password" class="block text-sm font-medium text-gray-700 mb-1">Confirmar
-                        Contraseña</label>
-                    {{ form.confirmar_password|add_class:"border rounded w-full p-3" }}
+                <div class="mb-3">
+                    <label for="id_confirmar_password" class="form-label">Confirmar Contraseña</label>
+                    {{ form.confirmar_password|add_class:"form-control" }}
                 </div>
 
-                <button type="submit"
-                        class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
-                    Registrarse
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-user-plus"></i> Registrarse
                 </button>
             </form>
-
-            <div class="mt-6 text-center">
-                <p class="text-sm text-gray-600">¿Ya tienes una cuenta?
-                    <a href="{% url 'login' %}" class="text-blue-500 hover:underline">Inicia Sesión</a>.
-                </p>
-            </div>
         </div>
-    </section>
+        <div class="card-footer bg-light text-center">
+            <p class="mb-0">¿Ya tienes una cuenta?
+                <a href="{% url 'login' %}" class="text-primary">Inicia Sesión</a>.
+            </p>
+        </div>
+    </div>
+</section>
 {% endblock %}

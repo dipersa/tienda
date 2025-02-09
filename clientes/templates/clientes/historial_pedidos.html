@@ -2,47 +2,50 @@
 {% block title %}Historial de Pedidos{% endblock %}
 
 {% block content %}
-<section class="container mx-auto px-5 py-10 min-h-screen">
-    <div class="bg-white shadow-lg rounded-lg p-8">
-        <h2 class="text-2xl font-bold text-center text-blue-500 mb-6">Historial de Pedidos</h2>
+<section class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center text-primary mb-4">Historial de Pedidos</h2>
 
         {% if pedidos %}
-        <table class="w-full bg-white border rounded shadow-md">
-            <thead class="bg-gray-200">
+        <table class="table table-hover table-bordered">
+            <thead class="bg-primary text-white">
                 <tr>
-                    <th class="text-left p-3 font-medium">Número de Pedido</th>
-                    <th class="text-left p-3 font-medium">Fecha</th>
-                    <th class="text-left p-3 font-medium">Total</th>
-                    <th class="text-left p-3 font-medium">Estado</th>
-                    <th class="text-left p-3 font-medium">Acciones</th>
+                    <th class="fw-bold">Número de Pedido</th>
+                    <th class="fw-bold">Fecha</th>
+                    <th class="fw-bold">Total</th>
+                    <th class="fw-bold">Estado</th>
+                    <th class="fw-bold">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 {% for pedido in pedidos %}
-                <tr class="border-t">
-                    <td class="p-3">#{{ pedido.id }}</td>
-                    <td class="p-3">{{ pedido.fecha|date:"d M Y" }}</td>
-                    <td class="p-3 text-green-500 font-bold">${{ pedido.total }}</td>
-                    <td class="p-3">
-                        <span class="{% if pedido.estado == 'Completado' %}text-green-600{% else %}text-yellow-600{% endif %}">
+                <tr class="bg-white">
+                    <td>#{{ pedido.id }}</td>
+                    <td>{{ pedido.fecha|date:"d M Y" }}</td>
+                    <td class="text-success fw-bold">${{ pedido.total }}</td>
+                    <td>
+                        <span class="{% if pedido.estado == 'Completado' %}text-success{% else %}text-warning{% endif %}">
                             {{ pedido.estado }}
                         </span>
                     </td>
-                    <td class="p-3">
-                        <a href="{% url 'detalle_pedido' pedido.id %}" class="text-blue-500 hover:underline">Ver Detalles</a>
+                    <td class="text-center">
+                        <a href="{% url 'detalle_pedido' pedido.id %}" class="btn btn-info btn-sm">
+                            <i class="fas fa-eye"></i> Ver Detalles
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         {% else %}
-        <p class="text-center text-gray-500 mt-10">No tienes pedidos realizados.</p>
+        <p class="text-center text-muted mt-4">No tienes pedidos realizados.</p>
         {% endif %}
 
-        <div class="mt-6 text-center">
-            <a href="{% url 'dashboard' %}" class="text-blue-500 hover:underline">Volver al Dashboard</a>
+        <div class="mt-4 text-center">
+            <a href="{% url 'dashboard' %}" class="btn btn-link text-primary">
+                <i class="fas fa-arrow-left"></i> Volver al Dashboard
+            </a>
         </div>
     </div>
 </section>
 {% endblock %}
-

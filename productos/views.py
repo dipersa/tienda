@@ -83,6 +83,29 @@ def agregar_producto(request):
     return render(request, 'productos/agregar_producto.html', {'form': form})
 
 
+@login_required
+def editar_producto(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES, instance=producto)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Producto actualizado exitosamente.')
+            return redirect('lista_productos')
+    else:
+        form = ProductoForm(instance=producto)
+    return render(request, 'productos/editar_producto.html', {'form': form, 'producto': producto})
+
+@login_required
+def eliminar_producto(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    if request.method == 'POST':
+        producto.delete()
+        messages.success(request, 'Producto eliminado exitosamente.')
+        return redirect('lista_productos')
+    return render(request, 'productos/eliminar_producto.html', {'producto': producto})
+
+
 def tienda(request):
     categoria_id = request.GET.get('categoria', None)
     productos = Producto.objects.all()

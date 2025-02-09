@@ -1,0 +1,51 @@
+{% extends 'productos/base.html' %}
+{% load products_form_filters %}
+{% block title %}Editar Producto{% endblock %}
+
+{% block content %}
+<section class="container mt-5">
+    <div class="card mx-auto shadow-sm" style="max-width: 500px;">
+        <div class="card-header bg-warning text-white text-center">
+            <h5 class="mb-0">Editar Producto</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="id_nombre" class="form-label">Nombre</label>
+                    {{ form.nombre|add_class:"form-control" }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_descripcion" class="form-label">Descripción</label>
+                    {{ form.descripcion|add_class:"form-control" }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_precio" class="form-label">Precio</label>
+                    {{ form.precio|add_class:"form-control" }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_stock" class="form-label">Stock</label>
+                    {{ form.stock|add_class:"form-control" }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_categoria" class="form-label">Categoría</label>
+                    {{ form.categoria|add_class:"form-select" }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_imagen" class="form-label">Imagen</label>
+                    {{ form.imagen|add_class:"form-control" }}
+                </div>
+                <button type="submit" class="btn btn-warning w-100">
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+            </form>
+        </div>
+        <div class="card-footer text-center">
+            <a href="{% url 'lista_productos' %}" class="btn btn-link text-primary">
+                <i class="fas fa-arrow-left"></i> Volver a la Lista de Productos
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

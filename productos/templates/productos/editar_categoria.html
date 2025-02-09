@@ -1,17 +1,35 @@
 {% extends 'productos/base.html' %}
+{% load products_form_filters %}
 
 {% block title %}Editar Categoría{% endblock %}
 
 {% block content %}
-<section class="container mx-auto px-5 py-10">
-    <h2 class="text-3xl font-bold text-center text-blue-500 mb-6">Editar Categoría</h2>
-
-    <form method="post" class="bg-white shadow-md rounded-lg p-8 max-w-md mx-auto">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
-            Guardar Cambios
-        </button>
-    </form>
+<section class="container mt-5">
+    <div class="card mx-auto shadow-sm" style="max-width: 500px;">
+        <div class="card-header bg-warning text-white text-center">
+            <h5 class="mb-0">Editar Categoría</h5>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="id_nombre" class="form-label">Nombre</label>
+                    {{ form.nombre|add_class:"form-control" }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_descripcion" class="form-label">Descripción</label>
+                    {{ form.descripcion|add_class:"form-control" }}
+                </div>
+                <button type="submit" class="btn btn-warning w-100">
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+            </form>
+        </div>
+        <div class="card-footer text-center">
+            <a href="{% url 'lista_categorias' %}" class="btn btn-link text-primary">
+                <i class="fas fa-arrow-left"></i> Volver al Listado de Categorías
+            </a>
+        </div>
+    </div>
 </section>
 {% endblock %}

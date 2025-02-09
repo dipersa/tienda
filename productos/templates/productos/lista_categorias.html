@@ -3,50 +3,54 @@
 {% block title %}Categorías{% endblock %}
 
 {% block content %}
-<section class="container mx-auto px-5 py-10">
-    <h2 class="text-3xl font-bold text-center text-blue-500 mb-6">Gestión de Categorías</h2>
+<section class="container mt-5">
+    <h2 class="text-center mb-4">Gestión de Categorías</h2>
 
-    <div class="mb-5 flex justify-end">
-        <a href="{% url 'agregar_categoria' %}" class="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600">
-            Agregar Categoría
+    <div class="d-flex justify-content-end mb-4">
+        <a href="{% url 'agregar_categoria' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Agregar Categoría
         </a>
     </div>
 
-    <table class="table-auto w-full bg-white shadow-md rounded-lg overflow-hidden">
-        <thead class="bg-gray-200">
-            <tr>
-                <th class="text-left px-4 py-2">#</th>
-                <th class="text-left px-4 py-2">Nombre</th>
-                <th class="text-left px-4 py-2">Descripción</th>
-                <th class="text-left px-4 py-2">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for categoria in categorias %}
-            <tr class="border-b hover:bg-gray-100">
-                <td class="px-4 py-2">{{ forloop.counter }}</td>
-                <td class="px-4 py-2">{{ categoria.nombre }}</td>
-                <td class="px-4 py-2">{{ categoria.descripcion|default:"Sin descripción" }}</td>
-                <td class="px-4 py-2">
-                    <div class="flex space-x-2">
-                        <a href="{% url 'editar_categoria' categoria.id %}" class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">
-                            Editar
-                        </a>
-                        <a href="{% url 'eliminar_categoria' categoria.id %}" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
-                            Eliminar
-                        </a>
-                    </div>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4" class="text-center px-4 py-5 text-gray-500">
-                    No hay categorías disponibles.
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Lista de Categorías</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead class="bg-light text-dark">
+                    <tr>
+                        <th class="fw-bold">#</th>
+                        <th class="fw-bold">Nombre</th>
+                        <th class="fw-bold">Descripción</th>
+                        <th class="fw-bold">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for categoria in categorias %}
+                    <tr class="bg-white">
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ categoria.nombre }}</td>
+                        <td>{{ categoria.descripcion|default:"Sin descripción" }}</td>
+                        <td>
+                            <div class="d-flex justify-content-around">
+                                <a href="{% url 'editar_categoria' categoria.id %}" class="btn btn-warning btn-sm" title="Editar Categoría">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                                <a href="{% url 'eliminar_categoria' categoria.id %}" class="btn btn-danger btn-sm" title="Eliminar Categoría">
+                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr class="bg-white">
+                        <td colspan="4" class="text-center text-muted">No hay categorías disponibles.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </section>
 {% endblock %}
-

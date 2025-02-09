@@ -1,56 +1,59 @@
 {% extends 'productos/base.html' %}
+
 {% block title %}Carrito de Compras{% endblock %}
 
 {% block content %}
-<section class="container mx-auto px-5 py-10 min-h-screen">
-    <div class="bg-white shadow-lg rounded-lg p-8">
-        <h2 class="text-2xl font-bold text-center text-blue-500 mb-6">Carrito de Compras</h2>
+<section class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center text-primary mb-4">Carrito de Compras</h2>
 
         {% if carrito.carrito %}
-        <table class="w-full bg-white border rounded shadow-md">
-            <thead class="bg-gray-200">
+        <table class="table table-hover table-bordered">
+            <thead class="bg-primary text-white">
                 <tr>
-                    <th class="text-left p-3 font-medium">Producto</th>
-                    <th class="text-left p-3 font-medium">Cantidad</th>
-                    <th class="text-left p-3 font-medium">Subtotal</th>
-                    <th class="text-left p-3 font-medium">Acciones</th>
+                    <th class="fw-bold">Producto</th>
+                    <th class="fw-bold">Cantidad</th>
+                    <th class="fw-bold">Subtotal</th>
+                    <th class="fw-bold">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 {% for key, item in carrito.carrito.items %}
-                <tr class="border-t">
-                    <td class="p-3">{{ item.nombre }}</td>
-                    <td class="p-3">{{ item.cantidad }}</td>
-                    <td class="p-3 text-green-500 font-bold">${{ item.subtotal }}</td>
-                    <td class="p-3">
-                        <a href="{% url 'eliminar_del_carrito' key %}" class="text-red-500 hover:underline">Eliminar</a>
+                <tr class="bg-white">
+                    <td>{{ item.nombre }}</td>
+                    <td>{{ item.cantidad }}</td>
+                    <td class="text-success fw-bold">${{ item.subtotal }}</td>
+                    <td>
+                        <a href="{% url 'eliminar_del_carrito' key %}" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
 
-        <div class="mt-6">
-            <p class="text-lg font-bold">Total: <span class="text-green-500">${{ carrito.obtener_total }}</span></p>
-            <div class="mt-4 flex justify-between">
-                <a href="{% url 'tienda' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
-                    Seguir Comprando
+        <div class="mt-4">
+            <p class="fs-5 fw-bold">Total: <span class="text-success">${{ carrito.obtener_total }}</span></p>
+            <div class="d-flex justify-content-between mt-3">
+                <a href="{% url 'tienda' %}" class="btn btn-primary">
+                    <i class="fas fa-shopping-cart"></i> Seguir Comprando
                 </a>
-                <div class="space-x-4">
-                    <a href="{% url 'procesar_pago' %}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
-                        Pagar con Stripe
+                <div class="">
+                    <a href="{% url 'procesar_pago' %}" class="btn btn-success me-2">
+                        <i class="fas fa-credit-card"></i> Pagar con Stripe
                     </a>
-                    <a href="{% url 'pago_zelle' %}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
-                        Pagar con Zelle
+                    <a href="{% url 'pago_zelle' %}" class="btn btn-warning">
+                        <i class="fas fa-money-check"></i> Pagar con Zelle
                     </a>
                 </div>
             </div>
         </div>
         {% else %}
-        <p class="text-center text-gray-500 mt-10">Tu carrito está vacío. ¡Agrega productos para comenzar a comprar!</p>
-        <div class="mt-6 text-center">
-            <a href="{% url 'tienda' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
-                Volver a la Tienda
+        <p class="text-center text-muted mt-4">Tu carrito está vacío. ¡Agrega productos para comenzar a comprar!</p>
+        <div class="text-center mt-4">
+            <a href="{% url 'tienda' %}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Volver a la Tienda
             </a>
         </div>
         {% endif %}

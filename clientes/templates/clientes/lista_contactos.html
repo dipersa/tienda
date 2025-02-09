@@ -2,49 +2,54 @@
 {% block title %}Mis Contactos{% endblock %}
 
 {% block content %}
-<section class="container mx-auto px-5 py-10">
-    <div class="bg-white shadow-lg rounded-lg p-8">
-        <h2 class="text-2xl font-bold text-center text-blue-500 mb-6">Mis Contactos</h2>
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-semibold">Lista de Contactos</h3>
-            <a href="{% url 'agregar_contacto' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
-                Agregar Contacto
+<section class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center text-primary mb-4">Mis Contactos</h2>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="text-dark">Lista de Contactos</h3>
+            <a href="{% url 'agregar_contacto' %}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Agregar Contacto
             </a>
         </div>
 
-        <table class="w-full bg-white border rounded shadow-md">
-            <thead class="bg-gray-200">
+        <table class="table table-hover table-bordered">
+            <thead class="bg-primary text-white">
                 <tr>
-                    <th class="text-left p-3 font-medium">Nombre</th>
-                    <th class="text-left p-3 font-medium">Celular</th>
-                    <th class="text-left p-3 font-medium">Dirección</th>
-                    <th class="text-left p-3 font-medium">Acciones</th>
+                    <th class="fw-bold">Nombre</th>
+                    <th class="fw-bold">Celular</th>
+                    <th class="fw-bold">Dirección</th>
+                    <th class="fw-bold">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 {% for contacto in contactos %}
-                <tr class="border-t">
-                    <td class="p-3">{{ contacto.nombre }} {{ contacto.apellidos }}</td>
-                    <td class="p-3">{{ contacto.celular }}</td>
-                    <td class="p-3">{{ contacto.direccion }}</td>
-                    <td class="p-3 space-x-2">
-                        <a href="{% url 'editar_contacto' contacto.id %}" class="text-blue-500 hover:underline">Editar</a>
-                        <a href="{% url 'eliminar_contacto' contacto.id %}" class="text-red-500 hover:underline">Eliminar</a>
+                <tr class="bg-white">
+                    <td>{{ contacto.nombre }} {{ contacto.apellidos }}</td>
+                    <td>{{ contacto.celular }}</td>
+                    <td>{{ contacto.direccion }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'editar_contacto' contacto.id %}" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <a href="{% url 'eliminar_contacto' contacto.id %}" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </a>
                     </td>
                 </tr>
                 {% empty %}
-                <tr>
-                    <td colspan="4" class="p-3 text-center text-gray-500">No tienes contactos guardados.</td>
+                <tr class="bg-white">
+                    <td colspan="4" class="text-center text-muted">No tienes contactos guardados.</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
 
-        <div class="mt-6 text-center">
-            <a href="{% url 'tienda' %}" class="text-blue-500 hover:underline">Volver a la Tienda</a>
+        <div class="mt-4 text-center">
+            <a href="{% url 'tienda' %}" class="btn btn-link text-primary">
+                <i class="fas fa-arrow-left"></i> Volver a la Tienda
+            </a>
         </div>
     </div>
 </section>
 {% endblock %}
-
-

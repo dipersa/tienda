@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import lista_categorias, agregar_categoria, lista_productos, agregar_producto, tienda, detalle_producto, \
     agregar_al_carrito, eliminar_del_carrito, ver_carrito, limpiar_carrito, historial_pedidos, editar_categoria, \
-    eliminar_categoria
+    eliminar_categoria, editar_producto, eliminar_producto
 from .views import procesar_pago, pago_zelle
 from django.contrib.auth.views import LogoutView
 from clientes.views import admin_dashboard
@@ -18,6 +18,8 @@ urlpatterns = [
     # Productos
     path('productos/', lista_productos, name='lista_productos'),
     path('productos/agregar/', agregar_producto, name='agregar_producto'),
+    path('productos/editar/<int:producto_id>/', editar_producto, name='editar_producto'),  # Nueva URL
+    path('productos/eliminar/<int:producto_id>/', eliminar_producto, name='eliminar_producto'),
 
     path('tienda/', tienda, name='tienda'),
     path('producto/<int:producto_id>/', detalle_producto, name='detalle_producto'),
