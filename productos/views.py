@@ -7,9 +7,6 @@ from .models import Producto, Categoria
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto
 from .cart import Carrito
-
-from pedidos.models import Pedido, PedidoProducto
-
 import stripe
 from django.conf import settings
 from django.shortcuts import render, redirect
@@ -23,6 +20,8 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 from clientes.forms import RegistroUsuarioForm
+from pedidos.models import Pedido, PedidoProducto
+from pedidos.views import crear_pedido
 
 
 @login_required
@@ -125,7 +124,8 @@ def detalle_producto(request, producto_id):
 
 def ver_carrito(request):
     carrito = Carrito(request)
-    return render(request, 'productos/carrito.html', {'carrito': carrito})
+    total = carrito.obtener_total()
+    return render(request, 'productos/carrito.html', {'carrito': carrito, 'total': total})
 
 
 def agregar_al_carrito(request, producto_id):
@@ -170,7 +170,20 @@ def procesar_pago(request):
 def pago_zelle(request):
     carrito = Carrito(request)
     total = carrito.obtener_total()
-    return render(request, 'pagos/pago_zelle.html', {'total': total})
+
+    # Verificar si ya existe un pedido en estado "pendiente"
+    pedido, created = Pedido.objects.get_or_create(
+        cliente=request.user,  # Asegurar que el campo es "cliente"
+        estado='pendiente',
+        defaults={'total': total}
+    )
+
+    # Si el pedido ya existía, actualizamos el total
+    if not created:
+        pedido.total = total
+        pedido.save()
+
+    return render(request, 'pagos/pago_zelle.html', {'total': total, 'pedido': pedido})
 
 
 def confirmar_pago(request):
@@ -202,7 +215,13 @@ def confirmar_pago(request):
 
 @login_required
 def historial_pedidos(request):
-    pedidos = Pedido.objects.filter(usuario=request.user).order_by('-fecha')
+    pedidos = Pedido.objects.filter(cliente=request.user).order_by('-fecha_creacion')
     return render(request, 'clientes/historial_pedidos.html', {'pedidos': pedidos})
 
 
+def actualizar_carrito(request, producto_id):
+    carrito = Carrito(request)
+    producto = get_object_or_404(Producto, id=producto_id)
+    nueva_cantidad = int(request.POST.get('cantidad', 1))
+    carrito.actualizar(producto, nueva_cantidad)
+    return redirect('ver_carrito')

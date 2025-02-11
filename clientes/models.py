@@ -8,8 +8,9 @@ class CustomUser(AbstractUser):
     nombre = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
 
+    username = models.CharField(max_length=150, unique=False, blank=True, null=True)  # Hacer opcional
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'nombre', 'apellidos']
+    REQUIRED_FIELDS = ['nombre', 'apellidos']
 
     def __str__(self):
         return f"{self.nombre} {self.apellidos}"
@@ -24,4 +25,3 @@ class Contacto(models.Model):
 
     def __str__(self):
         return f"{self.nombre} {self.apellidos} - {self.celular}"
-

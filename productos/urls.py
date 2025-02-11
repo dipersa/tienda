@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import lista_categorias, agregar_categoria, lista_productos, agregar_producto, tienda, detalle_producto, \
     agregar_al_carrito, eliminar_del_carrito, ver_carrito, limpiar_carrito, historial_pedidos, editar_categoria, \
-    eliminar_categoria, editar_producto, eliminar_producto
+    eliminar_categoria, editar_producto, eliminar_producto, actualizar_carrito
 from .views import procesar_pago, pago_zelle
 from django.contrib.auth.views import LogoutView
 from clientes.views import admin_dashboard
@@ -27,6 +27,7 @@ urlpatterns = [
     path('carrito/', ver_carrito, name='ver_carrito'),
     path('carrito/agregar/<int:producto_id>/', agregar_al_carrito, name='agregar_al_carrito'),
     path('carrito/eliminar/<int:producto_id>/', eliminar_del_carrito, name='eliminar_del_carrito'),
+    path('carrito/actualizar/<int:producto_id>/', actualizar_carrito, name='actualizar_carrito'),
     path('carrito/limpiar/', limpiar_carrito, name='limpiar_carrito'),
 
     path('pago/procesar/', procesar_pago, name='procesar_pago'),

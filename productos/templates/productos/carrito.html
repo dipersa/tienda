@@ -3,60 +3,79 @@
 {% block title %}Carrito de Compras{% endblock %}
 
 {% block content %}
-<section class="container mt-5">
+<div class="container mt-5">
     <div class="card shadow-lg p-4">
         <h2 class="text-center text-primary mb-4">Carrito de Compras</h2>
 
         {% if carrito.carrito %}
-        <table class="table table-hover table-bordered">
-            <thead class="bg-primary text-white">
-                <tr>
-                    <th class="fw-bold">Producto</th>
-                    <th class="fw-bold">Cantidad</th>
-                    <th class="fw-bold">Subtotal</th>
-                    <th class="fw-bold">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for key, item in carrito.carrito.items %}
-                <tr class="bg-white">
-                    <td>{{ item.nombre }}</td>
-                    <td>{{ item.cantidad }}</td>
-                    <td class="text-success fw-bold">${{ item.subtotal }}</td>
-                    <td>
-                        <a href="{% url 'eliminar_del_carrito' key %}" class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash-alt"></i> Eliminar
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="mt-4">
-            <p class="fs-5 fw-bold">Total: <span class="text-success">${{ carrito.obtener_total }}</span></p>
-            <div class="d-flex justify-content-between mt-3">
-                <a href="{% url 'tienda' %}" class="btn btn-primary">
-                    <i class="fas fa-shopping-cart"></i> Seguir Comprando
-                </a>
-                <div class="d-flex">
-                    <a href="{% url 'procesar_pago' %}" class="btn btn-success me-2">
-                        <i class="fas fa-credit-card"></i> Pagar con Stripe
-                    </a>
-                    <a href="{% url 'resumen_carrito' %}" class="btn btn-warning">
-                        <i class="fas fa-money-check"></i> Pagar con Zelle
-                    </a>
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Lista de Productos en el Carrito</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead class="bg-light text-dark">
+                            <tr>
+                                <th class="fw-bold">Producto</th>
+                                <th class="fw-bold">Cantidad</th>
+                                <th class="fw-bold">Precio</th>
+                                <th class="fw-bold">Subtotal</th>
+                                <th class="fw-bold">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for producto_id, item in carrito.carrito.items %}
+                            <tr class="bg-white">
+                                <td>{{ item.nombre }}</td>
+                                <td>
+                                    <form action="{% url 'actualizar_carrito' producto_id %}" method="post" class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="number" name="cantidad" value="{{ item.cantidad }}" min="1" class="form-control form-control-sm d-inline w-auto">
+                                        <button type="submit" class="btn btn-primary btn-sm">Actualizar</button>
+                                    </form>
+                                </td>
+                                <td>${{ item.precio }}</td>
+                                <td>${{ item.subtotal }}</td>
+                                <td>
+                                    <a href="{% url 'eliminar_del_carrito' producto_id %}" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i> Eliminar
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr class="bg-white">
+                                <td colspan="5" class="text-center text-muted">Tu carrito está vacío.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
+
+            <div class="mt-4">
+                <p class="text-end fs-5">Total: ${{ carrito.obtener_total }}</p>
+                <div class="d-flex justify-content-between mt-3">
+                    <a href="{% url 'tienda' %}" class="btn btn-primary">
+                        <i class="fas fa-shopping-cart"></i> Seguir Comprando
+                    </a>
+                    <div class="d-flex">
+                        <a href="{% url 'procesar_pago' %}" class="btn btn-success me-2">
+                            <i class="fas fa-credit-card"></i> Pagar con Stripe
+                        </a>
+                        <a href="{% url 'resumen_carrito' %}" class="btn btn-warning">
+                            <i class="fas fa-money-check"></i> Pagar con Zelle
+                        </a>
+                    </div>
+                </div>
+            </div>
         {% else %}
-        <p class="text-center text-muted mt-4">Tu carrito está vacío. ¡Agrega productos para comenzar a comprar!</p>
-        <div class="text-center mt-4">
-            <a href="{% url 'tienda' %}" class="btn btn-primary">
-                <i class="fas fa-arrow-left"></i> Volver a la Tienda
-            </a>
-        </div>
+            <p class="text-center text-muted mt-4">Tu carrito está vacío. ¡Agrega productos para comenzar a comprar!</p>
+            <div class="text-center mt-4">
+                <a href="{% url 'tienda' %}" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Volver a la Tienda
+                </a>
+            </div>
         {% endif %}
     </div>
-</section>
+</div>
 {% endblock %}

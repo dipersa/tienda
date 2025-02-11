@@ -16,14 +16,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for item in carrito %}
+                {% for producto_id, item in carrito.carrito.items %}
                     <tr class="bg-white">
-                        <td>{{ item.producto.nombre }}</td>
+                        <td>{{ item.nombre }}</td>
                         <td>{{ item.cantidad }}</td>
                         <td class="text-success fw-bold">${{ item.precio }}</td>
                         <td class="text-success fw-bold">${{ item.subtotal }}</td>
                     </tr>
                 {% endfor %}
+
                 </tbody>
             </table>
             <div class="text-end mt-4">

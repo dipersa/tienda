@@ -63,6 +63,8 @@ class RegistroUsuarioView(FormView):
     def form_valid(self, form):
         user = form.save(commit=False)
         user.set_password(form.cleaned_data['password'])
+        # Generar un username basado en el correo electrónico
+        user.username = form.cleaned_data['email'].split('@')[0]
         user.save()
 
         messages.success(self.request, 'Te has registrado con éxito. Ahora puedes iniciar sesión.')

@@ -3,10 +3,12 @@ from clientes.models import Contacto
 from productos.cart import Carrito
 from django.shortcuts import redirect
 from pedidos.forms import ComprobantePagoForm
-from pedidos.models import Pedido
+from pedidos.models import Pedido, PedidoProducto
 from django.contrib import messages
 import logging
 from django.shortcuts import render, get_object_or_404
+
+from productos.models import Producto
 from .models import Pedido
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
@@ -17,31 +19,54 @@ logger = logging.getLogger(__name__)
 
 def crear_pedido(request):
     carrito = Carrito(request)
+
     if carrito.obtener_total() > 0:
-        logger.debug("Creando pedido para usuario: %s", request.user)
-        pedido = Pedido.objects.create(
-            usuario=request.user,
-            total=carrito.obtener_total(),
-            estado='pendiente'
+        logger.debug("Verificando si ya existe un pedido pendiente para el usuario: %s", request.user)
+
+        # Verificar si ya hay un pedido pendiente
+        pedido, created = Pedido.objects.get_or_create(
+            cliente=request.user,
+            estado='pendiente',
+            defaults={'total': carrito.obtener_total()}
         )
-        pedido.save()
-        carrito.limpiar()
-        logger.debug("Pedido creado con éxito, ID: %s", pedido.id)
+
+        # Si el pedido ya existía, actualizar el total
+        if not created:
+            pedido.total = carrito.obtener_total()
+            pedido.save()
+        else:
+            # Si es un nuevo pedido, agregar los productos
+            for producto_id, item in carrito.carrito.items():
+                producto = get_object_or_404(Producto, nombre=item['nombre'])
+                PedidoProducto.objects.create(
+                    pedido=pedido,
+                    producto=producto,
+                    cantidad=item['cantidad'],
+                    subtotal=item['subtotal']
+                )
+
+        logger.debug("Pedido %s guardado con estado pendiente", pedido.id)
+
         messages.success(request, "Pedido creado correctamente. ¡Ahora sube tu comprobante!")
-        return redirect('pago_paso1')
+
+        # Redirigir directamente al paso 2 (selección de contacto)
+        return redirect('pago_paso2')
+
     else:
-        logger.debug("El carrito está vacío para el usuario: %s", request.user)
         messages.error(request, "El carrito está vacío. Agrega productos antes de continuar.")
-        return redirect('carrito')
+        return redirect('ver_carrito')
 
 
 def resumen_carrito(request):
     carrito = Carrito(request)
-    context = {
-        'carrito': carrito,
-        'total': carrito.obtener_total(),
-    }
-    return render(request, 'pedidos/pago_paso1.html', context)
+
+    # Si el carrito tiene productos, intentamos crear el pedido
+    if carrito.obtener_total() > 0:
+        return crear_pedido(request)  # Llama a la función para crear el pedido y redirigir al siguiente paso
+
+    # Si el carrito está vacío, muestra un error
+    messages.error(request, "El carrito está vacío. Agrega productos antes de continuar.")
+    return redirect('ver_carrito')
 
 
 def crear_o_seleccionar_contacto(request):
@@ -69,23 +94,27 @@ def subir_comprobante_pago(request):
     if request.method == 'POST':
         form = ComprobantePagoForm(request.POST, request.FILES)
         if form.is_valid():
-            pedido = Pedido.objects.filter(usuario=request.user, estado='pendiente').last()
-            if pedido:  # Verificar si existe un pedido pendiente
-                pedido.comprobante_pago = form.cleaned_data['comprobante_pago']
-                pedido.estado = 'en revisión'  # Cambiar el estado del pedido
-                pedido.save()
-                messages.success(request, "Comprobante de pago subido correctamente.")
-                return redirect('pago_paso5')  # Redirige al paso 5
-            else:
-                messages.error(request, "No se encontró un pedido pendiente. Por favor, revisa tu carrito.")
-                return redirect('ver_carrito')
+            # Obtener el último pedido pendiente del usuario
+            pedido = Pedido.objects.filter(cliente=request.user, estado='pendiente').order_by('-fecha_creacion').first()
+
+            if not pedido:
+                messages.error(request, "No se encontró un pedido pendiente. Verifica que tu pedido fue creado "
+                                        "correctamente.")
+                return redirect('pago_paso3')  # Redirige a la información de pago
+
+            # Guardar el comprobante de pago
+            pedido.comprobante_pago = form.cleaned_data['comprobante_pago']
+            pedido.estado = 'en revisión'
+            pedido.save()
+
+            messages.success(request, "Comprobante de pago subido correctamente.")
+            return redirect('pago_paso5')
+
     else:
         form = ComprobantePagoForm()
 
-    context = {
-        'form': form
-    }
-    return render(request, 'pedidos/pago_paso4.html', context)
+    return render(request, 'pedidos/pago_paso4.html', {'form': form})
+
 
 
 def confirmacion_pago(request):
