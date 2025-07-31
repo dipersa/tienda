@@ -186,6 +186,7 @@ def pago_zelle(request):
     return render(request, 'pagos/pago_zelle.html', {'total': total, 'pedido': pedido})
 
 
+@login_required
 def confirmar_pago(request):
     carrito = Carrito(request)
     total = carrito.obtener_total()
