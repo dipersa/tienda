@@ -192,7 +192,7 @@ def confirmar_pago(request):
 
     # Crear el pedido
     pedido = Pedido.objects.create(
-        usuario=request.user,
+        cliente=request.user,
         total=total,
         estado='completado'
     )
